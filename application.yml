@@ -1,0 +1,8 @@
+spring:  
+  jpa:
+    hibernate:  
+      ddl-auto: create
+  datasource:  
+    url: "jdbc:postgresql://localhost:5432/Hotel"  
+    username: postgres  
+    password: postgres
