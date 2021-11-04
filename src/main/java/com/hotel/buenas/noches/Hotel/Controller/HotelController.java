@@ -40,7 +40,7 @@ class HotelController {
   Hotel one(@PathVariable Long id) {
     
     return repository.findById(id)
-      .orElseThrow(() -> new HotelNotFoundException(id));
+      .orElseThrow(() -> new RuntimeException("No se encontro cliente"));
   }
 
   @PutMapping("/Hotels/{id}")
@@ -49,7 +49,6 @@ class HotelController {
     return repository.findById(id)
       .map(Hotel -> {
         Hotel.setName(newHotel.getName());
-        Hotel.setRole(newHotel.getRole());
         return repository.save(Hotel);
       })
       .orElseGet(() -> {
