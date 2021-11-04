@@ -1,7 +1,7 @@
 package com.hotel.buenas.noches.Hotel.Controller;
 
 import java.util.List;
-import com.hotel.buenas.noches.Hotel.Repository.HotelRepository;
+import com.hotel.buenas.noches.Hotel.Services.IService;
 import com.hotel.buenas.noches.Hotel.Data.Hotel;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,55 +10,42 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @RestController
 class HotelController {
 
-  private final HotelRepository repository;
+  @Autowired
+  private final IService service;
 
-  HotelController(HotelRepository repository) {
-    this.repository = repository;
+  HotelController(IService service) {
+    this.service = service;
   }
 
-
-  // Aggregate root
-  // tag::get-aggregate-root[]
   @GetMapping("/Hotels")
   List<Hotel> all() {
-    return repository.findAll();
+    return service.GetHotels();
   }
-  // end::get-aggregate-root[]
 
   @PostMapping("/Hotels")
   Hotel newHotel(@RequestBody Hotel newHotel) {
-    return repository.save(newHotel);
+    return service.addHotel(newHotel);
   }
 
-  // Single item
-  
   @GetMapping("/Hotels/{id}")
   Hotel one(@PathVariable Long id) {
     
-    return repository.findById(id)
-      .orElseThrow(() -> new RuntimeException("No se encontro cliente"));
+    return service.GetHotel(id);
   }
 
   @PutMapping("/Hotels/{id}")
   Hotel replaceHotel(@RequestBody Hotel newHotel, @PathVariable Long id) {
     
-    return repository.findById(id)
-      .map(Hotel -> {
-        Hotel.setName(newHotel.getName());
-        return repository.save(Hotel);
-      })
-      .orElseGet(() -> {
-        newHotel.setId(id);
-        return repository.save(newHotel);
-      });
+    return service.replaceHotel(newHotel, id);
   }
 
   @DeleteMapping("/Hotels/{id}")
   void deleteHotel(@PathVariable Long id) {
-    repository.deleteById(id);
+    service.DeleteHotel(id);
   }
 }
