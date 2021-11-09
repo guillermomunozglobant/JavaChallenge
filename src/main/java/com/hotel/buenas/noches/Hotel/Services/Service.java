@@ -14,6 +14,7 @@ import com.hotel.buenas.noches.Hotel.Data.BitacoraReservaciones;
 import com.hotel.buenas.noches.Hotel.Data.Guest;
 import com.hotel.buenas.noches.Hotel.Data.GuestType;
 import com.hotel.buenas.noches.Hotel.Data.RoomType;
+import com.hotel.buenas.noches.Hotel.Model.*;
 import org.springframework.stereotype.Repository;
 import java.util.List;
 
@@ -168,6 +169,12 @@ public class Service implements IService {
     GuestRepository.deleteById(id);
   }
 
+  public Boolean isVip(Long id){
+    Guest g = GetGuest(id);
+
+    return ReservationRepository.findByGuest(g).size() > 4;
+  }
+
   
   public List<GuestType> GetGuestTypes() {
     return GuestTypeRepository.findAll();
@@ -206,14 +213,13 @@ public class Service implements IService {
   }
   
   public Reservation addReservation(Reservation newReservation) {
-    BitacoraReservaciones bitacora = new BitacoraReservaciones();
-    bitacora.setStart_date(newReservation.getStart_date());
-    bitacora.setEnd_date(newReservation.getEnd_date());
-    bitacora.setHotel_name(newReservation.getRoom().getHotel().getName());
-    bitacora.setGuest_first_name(newReservation.getGuest().getFirst_name());
-    bitacora.setGuest_last_name(newReservation.getGuest().getLast_name());
-    bitacora.setRoom_name(newReservation.getRoom().getName());
-    BitacoraReservacionesRepository.save(bitacora);
+
+    Guest g = GuestRepository.findById(newReservation.getGuest().getId()).orElse(null);
+    
+    if(g == null){
+      addGuest(newReservation.getGuest());
+    }
+
     return ReservationRepository.save(newReservation);
   }
 
@@ -238,5 +244,35 @@ public class Service implements IService {
 
   public void DeleteReservation( Long id) {
     ReservationRepository.deleteById(id);
+  }
+
+  public <T> Respuesta<T> GenerateRespuesta(T objeto){
+    return new Respuesta<T>(objeto);
+  }
+
+  public List<Room> getRoomByHotel(Long id){
+    Hotel h = GetHotel(id);
+
+    return roomRepository.getRoomByHotel(h.getId());
+  }
+
+  public String CheckIn (Long id){
+    Reservation r = ReservationRepository.findById(id).orElse(null);
+    if(r == null){
+      return "No se encontro reservacion";
+    }
+    r.setCheck_in(true);
+    ReservationRepository.save(r);
+
+    BitacoraReservaciones bitacora = new BitacoraReservaciones();
+    bitacora.setStart_date(r.getStart_date());
+    bitacora.setEnd_date(r.getEnd_date());
+    bitacora.setHotel_name(r.getRoom().getHotel().getName());
+    bitacora.setGuest_first_name(r.getGuest().getFirst_name());
+    bitacora.setGuest_last_name(r.getGuest().getLast_name());
+    bitacora.setRoom_name(r.getRoom().getName());
+    BitacoraReservacionesRepository.save(bitacora);
+
+    return "Se hizo el check in";
   }
 }

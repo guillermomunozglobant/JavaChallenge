@@ -1,7 +1,7 @@
 package com.hotel.buenas.noches.Hotel.Controller;
 
 import java.util.List;
-import com.hotel.buenas.noches.Hotel.Data.Room;
+import com.hotel.buenas.noches.Hotel.Data.GuestType;
 import com.hotel.buenas.noches.Hotel.Services.IService;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,30 +21,30 @@ class GuestTypeController {
     this.service = service;
   }
 
-  @GetMapping("/Rooms")
-  List<Room> all() {
-    return service.GetRooms();
+  @GetMapping("/GuestTypes")
+  List<GuestType> all() {
+    return service.GetGuestTypes();
   }
 
-  @PostMapping("/Rooms")
-  Room newRoom(@RequestBody Room newRoom) {
-    return service.addRoom(newRoom);
+  @PostMapping("/GuestTypes")
+  GuestType newGuestType(@RequestBody GuestType newGuestType) {
+    return service.addGuestType(newGuestType);
   }
 
-  @GetMapping("/Rooms/{id}")
-  Room one(@PathVariable Long id) {
+  @GetMapping("/GuestTypes/{id}")
+  GuestType one(@PathVariable Long id) {
     
-    return service.GetRoom(id);
+    return service.GetGuestType(id);
   }
 
-  @PutMapping("/Rooms/{id}")
-  Room replaceRoom(@RequestBody Room newRoom, @PathVariable Long id) {
+  @PutMapping("/GuestTypes/{id}")
+  GuestType replaceGuestType(@RequestBody GuestType newGuestType, @PathVariable Long id) {
     
-    return service.replaceRoom(newRoom, id);
+    return service.replaceGuestType(newGuestType, id);
   }
 
-  @DeleteMapping("/Rooms/{id}")
-  void deleteRoom(@PathVariable Long id) {
-    service.DeleteRoom(id);
+  @DeleteMapping("/GuestTypes/{id}")
+  void deleteGuestType(@PathVariable Long id) {
+    service.DeleteGuestType(id);
   }
 }

@@ -2,12 +2,8 @@ package com.hotel.buenas.noches.Hotel.Services;
 
 
 import java.util.List;
-import com.hotel.buenas.noches.Hotel.Data.Hotel;
-import com.hotel.buenas.noches.Hotel.Data.Room;
-import com.hotel.buenas.noches.Hotel.Data.Reservation;
-import com.hotel.buenas.noches.Hotel.Data.RoomType;
-import com.hotel.buenas.noches.Hotel.Data.Guest;
-import com.hotel.buenas.noches.Hotel.Data.GuestType;
+import com.hotel.buenas.noches.Hotel.Data.*;
+import com.hotel.buenas.noches.Hotel.Model.*;
 
 
 public interface IService {
@@ -16,7 +12,7 @@ public interface IService {
     Hotel GetHotel(Long id);
     void DeleteHotel(Long id);
     Hotel replaceHotel(Hotel newRoom,Long id);
-
+    List<Room> getRoomByHotel(Long id);
 
     List<Room> GetRooms();
     Room addRoom(Room room);
@@ -38,6 +34,7 @@ public interface IService {
     Guest GetGuest(Long id);
     void DeleteGuest(Long id);
     Guest replaceGuest(Guest newGuest,Long id);
+    Boolean isVip(Long id);
 
     
     List<GuestType> GetGuestTypes();
@@ -52,4 +49,7 @@ public interface IService {
     Reservation GetReservation(Long id);
     void DeleteReservation(Long id);
     Reservation replaceReservation(Reservation newReservation,Long id);
+    String CheckIn (Long id);
+
+    <T> Respuesta<T> GenerateRespuesta(T objeto);
 }

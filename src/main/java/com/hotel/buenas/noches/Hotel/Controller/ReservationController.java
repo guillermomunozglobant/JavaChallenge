@@ -1,7 +1,7 @@
 package com.hotel.buenas.noches.Hotel.Controller;
 
 import java.util.List;
-import com.hotel.buenas.noches.Hotel.Data.Room;
+import com.hotel.buenas.noches.Hotel.Data.Reservation;
 import com.hotel.buenas.noches.Hotel.Services.IService;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,30 +21,35 @@ class ReservationController {
     this.service = service;
   }
 
-  @GetMapping("/Rooms")
-  List<Room> all() {
-    return service.GetRooms();
+  @GetMapping("/Reservations")
+  List<Reservation> all() {
+    return service.GetReservations();
   }
 
-  @PostMapping("/Rooms")
-  Room newRoom(@RequestBody Room newRoom) {
-    return service.addRoom(newRoom);
+  @PostMapping("/Reservations")
+  Reservation newReservation(@RequestBody Reservation newReservation) {
+    return service.addReservation(newReservation);
   }
 
-  @GetMapping("/Rooms/{id}")
-  Room one(@PathVariable Long id) {
+  @PostMapping("/Reservations/CheckIn")
+  String CheckIn(@RequestBody Long newReservation) {
+    return service.CheckIn(newReservation);
+  }
+
+  @GetMapping("/Reservations/{id}")
+  Reservation one(@PathVariable Long id) {
     
-    return service.GetRoom(id);
+    return service.GetReservation(id);
   }
 
-  @PutMapping("/Rooms/{id}")
-  Room replaceRoom(@RequestBody Room newRoom, @PathVariable Long id) {
+  @PutMapping("/Reservations/{id}")
+  Reservation replaceReservation(@RequestBody Reservation newReservation, @PathVariable Long id) {
     
-    return service.replaceRoom(newRoom, id);
+    return service.replaceReservation(newReservation, id);
   }
 
-  @DeleteMapping("/Rooms/{id}")
-  void deleteRoom(@PathVariable Long id) {
-    service.DeleteRoom(id);
+  @DeleteMapping("/Reservations/{id}")
+  void deleteReservation(@PathVariable Long id) {
+    service.DeleteReservation(id);
   }
 }

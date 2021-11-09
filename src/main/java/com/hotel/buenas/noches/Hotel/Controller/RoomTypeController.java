@@ -1,7 +1,7 @@
 package com.hotel.buenas.noches.Hotel.Controller;
 
 import java.util.List;
-import com.hotel.buenas.noches.Hotel.Data.Room;
+import com.hotel.buenas.noches.Hotel.Data.RoomType;
 import com.hotel.buenas.noches.Hotel.Services.IService;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,38 +13,38 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @RestController
-class RoomTypeController {
+class RoomTypeTypeController {
   @Autowired
   private final IService service;
 
-  RoomTypeController(IService service) {
+  RoomTypeTypeController(IService service) {
     this.service = service;
   }
 
-  @GetMapping("/Rooms")
-  List<Room> all() {
-    return service.GetRooms();
+  @GetMapping("/RoomTypes")
+  List<RoomType> all() {
+    return service.GetRoomTypes();
   }
 
-  @PostMapping("/Rooms")
-  Room newRoom(@RequestBody Room newRoom) {
-    return service.addRoom(newRoom);
+  @PostMapping("/RoomTypes")
+  RoomType newRoomType(@RequestBody RoomType newRoomType) {
+    return service.addRoomType(newRoomType);
   }
 
-  @GetMapping("/Rooms/{id}")
-  Room one(@PathVariable Long id) {
+  @GetMapping("/RoomTypes/{id}")
+  RoomType one(@PathVariable Long id) {
     
-    return service.GetRoom(id);
+    return service.GetRoomType(id);
   }
 
-  @PutMapping("/Rooms/{id}")
-  Room replaceRoom(@RequestBody Room newRoom, @PathVariable Long id) {
+  @PutMapping("/RoomTypes/{id}")
+  RoomType replaceRoomType(@RequestBody RoomType newRoomType, @PathVariable Long id) {
     
-    return service.replaceRoom(newRoom, id);
+    return service.replaceRoomType(newRoomType, id);
   }
 
-  @DeleteMapping("/Rooms/{id}")
-  void deleteRoom(@PathVariable Long id) {
-    service.DeleteRoom(id);
+  @DeleteMapping("/RoomTypes/{id}")
+  void deleteRoomType(@PathVariable Long id) {
+    service.DeleteRoomType(id);
   }
 }
