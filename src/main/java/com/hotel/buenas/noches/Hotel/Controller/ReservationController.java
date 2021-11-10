@@ -2,6 +2,7 @@ package com.hotel.buenas.noches.Hotel.Controller;
 
 import java.util.List;
 import com.hotel.buenas.noches.Hotel.Data.Reservation;
+import com.hotel.buenas.noches.Hotel.Model.CancelaReserva;
 import com.hotel.buenas.noches.Hotel.Services.IService;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -51,5 +52,10 @@ class ReservationController {
   @DeleteMapping("/Reservations/{id}")
   void deleteReservation(@PathVariable Long id) {
     service.DeleteReservation(id);
+  }
+
+  @DeleteMapping("/Reservations/Cancelar")
+  void cancelarReservation(@RequestBody CancelaReserva reserva) {
+    service.CancelarReservation(reserva);
   }
 }
