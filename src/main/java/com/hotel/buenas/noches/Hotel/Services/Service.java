@@ -16,7 +16,10 @@ import com.hotel.buenas.noches.Hotel.Data.GuestType;
 import com.hotel.buenas.noches.Hotel.Data.RoomType;
 import com.hotel.buenas.noches.Hotel.Model.*;
 import org.springframework.stereotype.Repository;
+
+import java.util.Date;
 import java.util.List;
+import java.util.Optional;    
 
 @Repository
 public class Service implements IService {
@@ -244,6 +247,16 @@ public class Service implements IService {
 
   public void DeleteReservation( Long id) {
     ReservationRepository.deleteById(id);
+  }
+
+  public void CancelarReservation( CancelaReserva reserva) {
+    Optional<Guest> g = GuestRepository.findByFirstNameOrLastNameOrEmail
+        (reserva.getName(), reserva.getLastName(), reserva.getEmail()).findAny();
+    List<Reservation> listR = ReservationRepository.findByGuest(g.get());
+    if(listR.size()>0){
+      listR.stream().filter(r -> r.isCheck_in()== false && 
+      new Date(System.currentTimeMillis()).compareTo(r.getStart_date())>1);
+    }
   }
 
   public <T> Respuesta<T> GenerateRespuesta(T objeto){

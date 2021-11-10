@@ -50,6 +50,7 @@ public interface IService {
     void DeleteReservation(Long id);
     Reservation replaceReservation(Reservation newReservation,Long id);
     String CheckIn (Long id);
+    void CancelarReservation(CancelaReserva reserva);
 
     <T> Respuesta<T> GenerateRespuesta(T objeto);
 }
